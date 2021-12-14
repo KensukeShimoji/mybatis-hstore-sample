@@ -4,17 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="affe24cb-cbdb-43a9-9089-05d8669b54ab" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries-with-intellij-classes.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/mybatis/hstore/sample/mybatishstoresample/infrastructure/datasource/client/ClientRecord.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/resources/schema.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="affe24cb-cbdb-43a9-9089-05d8669b54ab" name="Default Changelist" comment="hstore対応のTypeHandlerを作成">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mybatis/hstore/sample/mybatishstoresample/domain/model/client/ClientCustomProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mybatis/hstore/sample/mybatishstoresample/domain/model/client/ClientCustomProperties.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mybatis/hstore/sample/mybatishstoresample/domain/model/client/ClientCustomProperty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mybatis/hstore/sample/mybatishstoresample/domain/model/client/ClientCustomProperty.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mybatis/hstore/sample/mybatishstoresample/infrastructure/datasource/client/ClientMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mybatis/hstore/sample/mybatishstoresample/infrastructure/datasource/client/ClientMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mybatis/hstore/sample/mybatishstoresample/infrastructure/datasource/client/ClientRecord.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mybatis/hstore/sample/mybatishstoresample/infrastructure/datasource/client/ClientRecord.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mybatis/hstore/sample/mybatishstoresample/infrastructure/datasource/utils/handler/HstoreTypeHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/mybatis/hstore/sample/mybatishstoresample/infrastructure/datasource/utils/handler/HstoreTypeHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/mybatis/hstore/sample/mybatishstoresample/infrastructure/datasource/client/ClientMapperTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/mybatis/hstore/sample/mybatishstoresample/infrastructure/datasource/client/ClientMapperTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,6 +24,16 @@
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
     </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view />
+      </state>
+    </system>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -85,7 +94,7 @@
       <recent name="com.mybatis.hstore.sample.mybatishstoresample.infrastructure.datasource.client" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.ClientMapperTest.顧客情報削除テスト">
+  <component name="RunManager" selected="Gradle.Tests in 'mybatis-hstore-sample.test' (1)">
     <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
@@ -189,7 +198,7 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="mybatis-hstore-sample [test]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="mybatis-hstore-sample [dependencies]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -200,7 +209,7 @@
         </option>
         <option name="taskNames">
           <list>
-            <option value="test" />
+            <option value="dependencies" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -219,11 +228,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.ClientMapperTest.顧客情報削除テスト" />
-        <item itemvalue="Gradle.ClientMapperTest.顧客情報取得テスト" />
-        <item itemvalue="Gradle.ClientMapperTest.顧客情報登録テスト" />
-        <item itemvalue="Gradle.mybatis-hstore-sample [test]" />
         <item itemvalue="Gradle.Tests in 'mybatis-hstore-sample.test' (1)" />
+        <item itemvalue="Gradle.ClientMapperTest.顧客情報取得テスト" />
+        <item itemvalue="Gradle.mybatis-hstore-sample [dependencies]" />
+        <item itemvalue="Gradle.ClientMapperTest.顧客情報削除テスト" />
+        <item itemvalue="Gradle.ClientMapperTest.顧客情報登録テスト" />
       </list>
     </recent_temporary>
   </component>
@@ -238,6 +247,14 @@
       <workItem from="1639397157942" duration="1768000" />
       <workItem from="1639398962075" duration="1795000" />
     </task>
+    <task id="LOCAL-00001" summary="MyBatisを利用したhstore型の利用方法を調査">
+      <created>1639470370255</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1639470370255</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -253,5 +270,10 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="MyBatisを利用したhstore型の利用方法を調査" />
+    <MESSAGE value="hstore対応のTypeHandlerを作成" />
+    <option name="LAST_COMMIT_MESSAGE" value="hstore対応のTypeHandlerを作成" />
   </component>
 </project>

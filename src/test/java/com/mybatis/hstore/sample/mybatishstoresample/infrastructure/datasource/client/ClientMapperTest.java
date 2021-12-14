@@ -28,7 +28,7 @@ class ClientMapperTest {
     private NamedParameterJdbcOperations jdbcOperations;
 
     @Test
-    void 顧客情報登録テスト() {
+     void 顧客情報登録テスト() {
         final var id = new ClientID("test_id");
         final var name = new ClientName("test_name");
         final var cp1 = new ClientCustomProperty("address", "address value.");
@@ -43,7 +43,6 @@ class ClientMapperTest {
                     var _id = rs.getString("id");
                     var _name = rs.getString("name");
                     var _prop = HStoreConverter.fromString(rs.getString("custom_properties"));
-                    ;
                     var _propList =
                             _prop.entrySet().stream().map(e -> new ClientCustomProperty(e.getKey(), e.getValue())).collect(Collectors.toList());
                     return new Client(
@@ -83,10 +82,8 @@ class ClientMapperTest {
         assertAll(
                 () -> assertEquals(id.getValue(), result.getId()),
                 () -> assertEquals(name.getValue(), result.getName()),
-                () -> assertEquals(cp1.getId(), result.getCustomPropertyKeys()[0]),
-                () -> assertEquals(cp1.getValue(), result.getCustomPropertyValues()[0]),
-                () -> assertEquals(cp2.getId(), result.getCustomPropertyKeys()[1]),
-                () -> assertEquals(cp2.getValue(), result.getCustomPropertyValues()[1])
+                () -> assertEquals(cp1.getValue(), result.getCustomProperties().get(cp1.getId())),
+                () -> assertEquals(cp2.getValue(), result.getCustomProperties().get(cp2.getId()))
         );
     }
 

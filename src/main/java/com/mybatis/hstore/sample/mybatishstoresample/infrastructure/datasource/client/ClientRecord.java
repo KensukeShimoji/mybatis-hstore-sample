@@ -4,6 +4,7 @@ import com.mybatis.hstore.sample.mybatishstoresample.domain.model.client.*;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -13,6 +14,7 @@ public class ClientRecord {
     private String name;
     private String[] customPropertyKeys;
     private String[] customPropertyValues;
+    private Map<String, String> customProperties;
 
     public Client toClient() {
         return new Client(new ClientID(id), new ClientName(name), convert2CustomProperties());

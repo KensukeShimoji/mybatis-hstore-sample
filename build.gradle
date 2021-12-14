@@ -23,6 +23,8 @@ repositories {
 dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
+
+	implementation 'org.postgresql:postgresql'
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.0'
 
 	testImplementation 'org.postgresql:postgresql'

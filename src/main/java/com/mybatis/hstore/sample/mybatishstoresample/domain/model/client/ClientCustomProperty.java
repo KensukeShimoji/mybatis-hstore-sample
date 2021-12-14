@@ -11,7 +11,7 @@ public class ClientCustomProperty {
     @Getter
     private final String value;
 
-    public ClientCustomProperty(String id, String value) {
+    public ClientCustomProperty(@NonNull String id, @NonNull String value) {
         this.id = id;
         this.value = value;
     }
