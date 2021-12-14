@@ -17,11 +17,11 @@ public class ClientCustomProperties {
     }
 
     public Map<String, String> getMap() {
-        return this.list.stream().collect(Collectors.toMap(ClientCustomProperty::getId, ClientCustomProperty::getValue));
+        return this.list.stream().collect(Collectors.toMap(ClientCustomProperty::getKey, ClientCustomProperty::getValue));
     }
 
     public String[] getKeys() {
-        return this.list.stream().map(ClientCustomProperty::getId).toArray(String[]::new);
+        return this.list.stream().map(ClientCustomProperty::getKey).toArray(String[]::new);
     }
 
     public String[] getValues() {

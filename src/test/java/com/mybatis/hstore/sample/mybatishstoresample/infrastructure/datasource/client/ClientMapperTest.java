@@ -57,9 +57,9 @@ class ClientMapperTest {
         assertAll(
                 () -> assertEquals(id.getValue(), firstRow.getId().getValue()),
                 () -> assertEquals(name.getValue(), firstRow.getName().getValue()),
-                () -> assertEquals(cp1.getId(), firstRow.getCustomProperties().getList().get(0).getId()),
+                () -> assertEquals(cp1.getKey(), firstRow.getCustomProperties().getList().get(0).getKey()),
                 () -> assertEquals(cp1.getValue(), firstRow.getCustomProperties().getList().get(0).getValue()),
-                () -> assertEquals(cp2.getId(), firstRow.getCustomProperties().getList().get(1).getId()),
+                () -> assertEquals(cp2.getKey(), firstRow.getCustomProperties().getList().get(1).getKey()),
                 () -> assertEquals(cp2.getValue(), firstRow.getCustomProperties().getList().get(1).getValue())
         );
     }
@@ -72,7 +72,7 @@ class ClientMapperTest {
         final var cp2 = new ClientCustomProperty("tel_number", "090-0000-0000");
         final var properties = new ClientCustomProperties(Arrays.asList(cp1, cp2));
 
-        var customPropertiesMap = properties.getList().stream().collect(Collectors.toMap(ClientCustomProperty::getId, ClientCustomProperty::getValue));
+        var customPropertiesMap = properties.getList().stream().collect(Collectors.toMap(ClientCustomProperty::getKey, ClientCustomProperty::getValue));
         jdbcOperations.update("insert into client(id, name, custom_properties) values(:id, :name, hstore(:custom_properties))",
                 new MapSqlParameterSource(Map.of("id", id.getValue(),
                                                  "name", name.getValue(),
@@ -82,8 +82,8 @@ class ClientMapperTest {
         assertAll(
                 () -> assertEquals(id.getValue(), result.getId()),
                 () -> assertEquals(name.getValue(), result.getName()),
-                () -> assertEquals(cp1.getValue(), result.getCustomProperties().get(cp1.getId())),
-                () -> assertEquals(cp2.getValue(), result.getCustomProperties().get(cp2.getId()))
+                () -> assertEquals(cp1.getValue(), result.getCustomProperties().get(cp1.getKey())),
+                () -> assertEquals(cp2.getValue(), result.getCustomProperties().get(cp2.getKey()))
         );
     }
 
@@ -95,7 +95,7 @@ class ClientMapperTest {
         final var cp2 = new ClientCustomProperty("tel_number", "090-0000-0000");
         final var properties = new ClientCustomProperties(Arrays.asList(cp1, cp2));
 
-        var customPropertiesMap = properties.getList().stream().collect(Collectors.toMap(ClientCustomProperty::getId, ClientCustomProperty::getValue));
+        var customPropertiesMap = properties.getList().stream().collect(Collectors.toMap(ClientCustomProperty::getKey, ClientCustomProperty::getValue));
         jdbcOperations.update("insert into client(id, name, custom_properties) values(:id, :name, hstore(:custom_properties))",
                 new MapSqlParameterSource(Map.of("id", id.getValue(),
                         "name", name.getValue(),

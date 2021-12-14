@@ -6,13 +6,13 @@ import lombok.NonNull;
 public class ClientCustomProperty {
     @NonNull
     @Getter
-    private final String id;
+    private final String key;
     @NonNull
     @Getter
     private final String value;
 
-    public ClientCustomProperty(@NonNull String id, @NonNull String value) {
-        this.id = id;
+    public ClientCustomProperty(@NonNull String key, @NonNull String value) {
+        this.key = key;
         this.value = value;
     }
 }
