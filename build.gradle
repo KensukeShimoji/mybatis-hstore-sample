@@ -1,0 +1,48 @@
+plugins {
+	id 'java'
+	
+	id 'org.springframework.boot' version '2.6.1'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+}
+
+group = 'com.mybatis.hstore.sample'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+sourceSets {
+	main {
+		// mybatis SQL map XML ファイルを java 以下でも検知する
+		resources.srcDirs = ["src/main/java", "src/main/resources"]
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.0'
+
+	testImplementation 'org.postgresql:postgresql'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation "org.mybatis.spring.boot:mybatis-spring-boot-starter-test:2.2.0"
+}
+
+task dockerComposeUp (type: Exec) {
+	commandLine 'docker-compose','-f','src/test/resources/docker-compose.yml','up','-d'
+	doLast {
+		Thread.sleep(5 * 1000)
+	}
+}
+
+task dockerComposeDown (type: Exec) {
+    commandLine 'docker-compose', '-f', 'src/test/resources/docker-compose.yml', 'down', '--remove-orphans', '--volumes'
+}
+
+test {
+	useJUnitPlatform()
+	dependsOn(dockerComposeUp)
+    finalizedBy(dockerComposeDown)
+}

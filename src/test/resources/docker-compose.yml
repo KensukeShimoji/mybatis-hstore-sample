@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:12-alpine
+    container_name: mybatis-hstore-sample
+    environment:
+      - POSTGRES_DB=sample
+      - POSTGRES_USER=pgadmin
+      - POSTGRES_PASSWORD=pgadmin
+      - LANG=ja_JP.utf8
+    volumes:
+      - ./:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"

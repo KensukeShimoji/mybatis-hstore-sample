@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mybatis.hstore.sample.mybatishstoresample.infrastructure.datasource.client.ClientMapper">
+
+    <resultMap id="clientMap"
+               type="com.mybatis.hstore.sample.mybatishstoresample.infrastructure.datasource.client.ClientRecord">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="custom_properties_keys" property="customPropertyKeys"
+                typeHandler="org.apache.ibatis.type.ArrayTypeHandler"/>
+        <result column="custom_properties_values" property="customPropertyValues"
+                typeHandler="org.apache.ibatis.type.ArrayTypeHandler"/>
+    </resultMap>
+    <select id="findAll" resultMap="clientMap">
+        SELECT id,
+        name,
+        akeys(custom_properties) as custom_properties_keys,
+        avals(custom_properties) as custom_properties_values
+        FROM client
+    </select>
+
+    <select id="findByID" resultMap="clientMap">
+        SELECT
+        id,
+        name,
+        akeys(custom_properties) as custom_properties_keys,
+        avals(custom_properties) as custom_properties_values
+        FROM client
+        WHERE id = #{id.value}
+    </select>
+
+    <insert id="insert">
+        INSERT INTO client (id, name,custom_properties)
+        VALUES (#{client.id.value}, #{client.name.value},
+        hstore(
+        #{client.customProperties.keys,typeHandler=org.apache.ibatis.type.ArrayTypeHandler},
+        #{client.customProperties.values,typeHandler=org.apache.ibatis.type.ArrayTypeHandler})
+        )
+        <!--        <foreach collection="client.customProperties.keys" item="item" index="" separator=",">-->
+        <!--            #{item}-->
+        <!--            #{client.customProperties.keys,typeHandler=org.apache.ibatis.type.ArrayTypeHandler}-->
+        <!--        </foreach>-->
+        <!--        ,-->
+        <!--        <foreach collection="client.customProperties.values" item="item" index="" separator=",">-->
+        <!--            #{item)-->
+        <!--            #{client.customProperties.values,typeHandler=org.apache.ibatis.type.ArrayTypeHandler})-->
+        <!--        </foreach>-->
+        <!--        )-->
+    </insert>
+
+    <update id="update">
+        UPDATE client
+        SET name = #{client.clientName.value}, custom_properties = hstore(#{client.custom_properties.list})
+        WHERE id = #{client.id.value}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM client WHERE id = #{id.value}
+    </delete>
+</mapper>
