@@ -208,9 +208,43 @@ class ClientMapperTest {
         this.target.insert(new Client(id3, name3, cps3));
 
         List<FilterCondition> fcs = new ArrayList<>();
-        FilterCondition fc1 = new FilterCondition.DateBetweenCondition("date", LocalDate.of(2021,10,30), LocalDate.of(2021,11,2));
+        FilterCondition fc1 = new FilterCondition.DateBetweenCondition("date", LocalDate.of(2021, 10, 30), LocalDate.of(2021, 11, 2));
         fcs.add(fc1);
         var result = this.target.filter(fcs);
         assertEquals(1, result.size());
+    }
+
+    @Test
+    void 顧客情報抽出テスト_含む() {
+
+        final var id = new ClientID("test_id");
+        final var name = new ClientName("test_name");
+        final var cps = new ClientCustomProperties(
+                Arrays.asList(
+                        new ClientCustomProperty("address", "大阪府"),
+                        new ClientCustomProperty("select", "A\tB\tC")));
+        this.target.insert(new Client(id, name, cps));
+
+        final var id2 = new ClientID("test_id2");
+        final var name2 = new ClientName("test_name2");
+        final var cps2 = new ClientCustomProperties(
+                Arrays.asList(
+                        new ClientCustomProperty("address", "東京都"),
+                        new ClientCustomProperty("select", "A")));
+        this.target.insert(new Client(id2, name2, cps2));
+
+        final var id3 = new ClientID("test_id3");
+        final var name3 = new ClientName("test_name3");
+        final var cps3 = new ClientCustomProperties(
+                Arrays.asList(
+                        new ClientCustomProperty("address", "東京都"),
+                        new ClientCustomProperty("select", "A\tC")));
+        this.target.insert(new Client(id3, name3, cps3));
+
+        List<FilterCondition> fcs = new ArrayList<>();
+        FilterCondition fc1 = new FilterCondition.ContainCondition("select", Arrays.asList("B", "C"));
+        fcs.add(fc1);
+        var result = this.target.filter(fcs);
+        assertEquals(2, result.size());
     }
 }

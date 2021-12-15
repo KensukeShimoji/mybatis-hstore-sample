@@ -4,6 +4,7 @@ import lombok.Getter;
 import org.springframework.cglib.core.Local;
 
 import java.time.LocalDate;
+import java.util.List;
 
 enum FilterConditionType {
     EQUALS,
@@ -25,6 +26,8 @@ public abstract class FilterCondition {
     LocalDate dateFrom;
     @Getter
     LocalDate dateTo;
+    @Getter
+    List<String> array;
 
     FilterConditionType type;
 
@@ -51,6 +54,14 @@ public abstract class FilterCondition {
             this.dateFrom = dateFrom;
             this.dateTo = dateTo;
             this.type = FilterConditionType.DATE_BETWEEN;
+        }
+    }
+
+    public static class ContainCondition extends FilterCondition {
+        public ContainCondition(String key, List<String> array) {
+            this.key = key;
+            this.array = array;
+            this.type = FilterConditionType.CONTAINS;
         }
     }
 

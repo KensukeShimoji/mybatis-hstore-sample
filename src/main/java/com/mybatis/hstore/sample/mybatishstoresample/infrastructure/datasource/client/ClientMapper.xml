@@ -39,6 +39,12 @@
                 <if test="cond.isDateBetween()">
                     AND CAST(custom_properties -> #{cond.key} AS Date) BETWEEN #{cond.dateFrom} AND #{cond.dateTo}
                 </if>
+                <if test="cond.isContains()">
+                    AND
+                    <foreach item="item" collection="cond.array" open="(" separator="OR" close=")">
+                        custom_properties -> #{cond.key} like CONCAT('%', #{item}, '%')
+                    </foreach>
+                </if>
             </foreach>
         </trim>
     </select>
