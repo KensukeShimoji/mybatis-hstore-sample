@@ -3,6 +3,13 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mybatis.hstore.sample.mybatishstoresample.infrastructure.datasource.client.ClientMapper">
 
+    <sql id="selectAll">
+        SELECT id,
+        name,
+        custom_properties
+        FROM client
+    </sql>
+
     <resultMap id="clientMap"
                type="com.mybatis.hstore.sample.mybatishstoresample.infrastructure.datasource.client.ClientRecord">
         <id column="id" property="id"/>
@@ -11,19 +18,23 @@
                 typeHandler="com.mybatis.hstore.sample.mybatishstoresample.infrastructure.datasource.utils.handler.HstoreTypeHandler"/>
     </resultMap>
     <select id="findAll" resultMap="clientMap">
-        SELECT id,
-        name,
-        custom_properties
-        FROM client
+        <include refid="selectAll"></include>
     </select>
 
     <select id="findByID" resultMap="clientMap">
-        SELECT
-        id,
-        name,
-        custom_properties
-        FROM client
+        <include refid="selectAll"></include>
         WHERE id = #{id.value}
+    </select>
+
+    <select id="filter" resultMap="clientMap">
+        <include refid="selectAll"></include>
+        <where>
+            <foreach item="cond" collection="conditions">
+                <if test="cond.isEquals()">
+                    custom_properties -> #{cond.key} = #{cond.value}
+                </if>
+            </foreach>
+        </where>
     </select>
 
     <insert id="insert">

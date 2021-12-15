@@ -1,6 +1,7 @@
 package com.mybatis.hstore.sample.mybatishstoresample.infrastructure.datasource.client;
 
 import com.mybatis.hstore.sample.mybatishstoresample.domain.model.client.*;
+import com.mybatis.hstore.sample.mybatishstoresample.infrastructure.datasource.utils.FilterCondition;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.postgresql.util.HStoreConverter;
@@ -9,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +30,7 @@ class ClientMapperTest {
     private NamedParameterJdbcOperations jdbcOperations;
 
     @Test
-     void 顧客情報登録テスト() {
+    void 顧客情報登録テスト() {
         final var id = new ClientID("test_id");
         final var name = new ClientName("test_name");
         final var cp1 = new ClientCustomProperty("address", "address value.");
@@ -75,8 +77,8 @@ class ClientMapperTest {
         var customPropertiesMap = properties.getList().stream().collect(Collectors.toMap(ClientCustomProperty::getKey, ClientCustomProperty::getValue));
         jdbcOperations.update("insert into client(id, name, custom_properties) values(:id, :name, hstore(:custom_properties))",
                 new MapSqlParameterSource(Map.of("id", id.getValue(),
-                                                 "name", name.getValue(),
-                                                 "custom_properties", HStoreConverter.toString(customPropertiesMap))));
+                        "name", name.getValue(),
+                        "custom_properties", HStoreConverter.toString(customPropertiesMap))));
 
         var result = this.target.findByID(id);
         assertAll(
@@ -110,5 +112,32 @@ class ClientMapperTest {
         var resultAfterDelete =
                 jdbcOperations.queryForList("select * from client where id = :id", new MapSqlParameterSource("id", id.getValue()));
         assertEquals(0, resultAfterDelete.size());
+    }
+
+    @Test
+    void 顧客情報抽出テスト_等価() {
+
+        final var id = new ClientID("test_id");
+        final var name = new ClientName("test_name");
+        final var cps = new ClientCustomProperties(
+                Arrays.asList(
+                        new ClientCustomProperty("address", "大阪府"),
+                        new ClientCustomProperty("tel_number", "090-0000-0000")));
+        this.target.insert(new Client(id, name, cps));
+
+        final var id2 = new ClientID("test_id2");
+        final var name2 = new ClientName("test_name2");
+        final var cps2 = new ClientCustomProperties(
+                Arrays.asList(
+                        new ClientCustomProperty("address", "東京都"),
+                        new ClientCustomProperty("tel_number", "090-0000-0000")));
+
+        this.target.insert(new Client(id2, name2, cps2));
+
+        List<FilterCondition> fcs = new ArrayList<>();
+        FilterCondition fc1 = new FilterCondition.EqualsCondition("address", "東京都");
+        fcs.add(fc1);
+        var result = this.target.filter(fcs);
+        assertEquals(1, result.size());
     }
 }
