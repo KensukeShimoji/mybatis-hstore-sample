@@ -14,9 +14,9 @@ public abstract class FilterCondition {
     @Getter
     String value;
     @Getter
-    String from;
+    Integer from;
     @Getter
-    String to;
+    Integer to;
 
     FilterConditionType type;
 
@@ -25,6 +25,15 @@ public abstract class FilterCondition {
             this.key = key;
             this.value = value;
             this.type = FilterConditionType.EQUALS;
+        }
+    }
+
+    public static class BetweenCondition extends FilterCondition {
+        public BetweenCondition(String key, Integer from, Integer to) {
+            this.key = key;
+            this.from= from;
+            this.to = to;
+            this.type = FilterConditionType.BETWEEN;
         }
     }
 

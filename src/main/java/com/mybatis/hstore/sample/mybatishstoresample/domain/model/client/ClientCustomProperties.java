@@ -5,6 +5,7 @@ import lombok.NonNull;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class ClientCustomProperties {
@@ -16,15 +17,7 @@ public class ClientCustomProperties {
        this.list = list;
     }
 
-    public Map<String, String> getMap() {
-        return this.list.stream().collect(Collectors.toMap(ClientCustomProperty::getKey, ClientCustomProperty::getValue));
-    }
-
-    public String[] getKeys() {
-        return this.list.stream().map(ClientCustomProperty::getKey).toArray(String[]::new);
-    }
-
-    public String[] getValues() {
-        return this.list.stream().map(ClientCustomProperty::getValue).toArray(String[]::new);
+    public Optional<ClientCustomProperty> get(String key) {
+        return this.getList().stream().filter(ccp -> ccp.getKey().equals(key)).findFirst();
     }
 }

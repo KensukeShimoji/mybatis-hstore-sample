@@ -18,29 +18,32 @@
                 typeHandler="com.mybatis.hstore.sample.mybatishstoresample.infrastructure.datasource.utils.handler.HstoreTypeHandler"/>
     </resultMap>
     <select id="findAll" resultMap="clientMap">
-        <include refid="selectAll"></include>
+        <include refid="selectAll"/>
     </select>
 
     <select id="findByID" resultMap="clientMap">
-        <include refid="selectAll"></include>
+        <include refid="selectAll"/>
         WHERE id = #{id.value}
     </select>
 
     <select id="filter" resultMap="clientMap">
-        <include refid="selectAll"></include>
-        <where>
+        <include refid="selectAll"/>
+        <trim prefix="WHERE" prefixOverrides="AND">
             <foreach item="cond" collection="conditions">
                 <if test="cond.isEquals()">
-                    custom_properties -> #{cond.key} = #{cond.value}
+                    AND custom_properties -> #{cond.key} = #{cond.value}
+                </if>
+                <if test="cond.isBetween()">
+                    AND CAST(custom_properties -> #{cond.key} AS INTEGER) BETWEEN #{cond.from} AND #{cond.to}
                 </if>
             </foreach>
-        </where>
+        </trim>
     </select>
 
     <insert id="insert">
         INSERT INTO client (id, name,custom_properties)
         VALUES (#{client.id.value}, #{client.name.value},
-                hstore(#{client.customProperties.map, typeHandler=com.mybatis.hstore.sample.mybatishstoresample.infrastructure.datasource.utils.handler.HstoreTypeHandler}))
+                hstore(#{client.customProperties, typeHandler=com.mybatis.hstore.sample.mybatishstoresample.infrastructure.datasource.utils.handler.HstoreTypeHandler}))
     </insert>
 
     <update id="update">
