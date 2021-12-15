@@ -10,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -172,6 +173,42 @@ class ClientMapperTest {
 
         List<FilterCondition> fcs = new ArrayList<>();
         FilterCondition fc1 = new FilterCondition.BetweenCondition("number_of_employee", 11, 100);
+        fcs.add(fc1);
+        var result = this.target.filter(fcs);
+        assertEquals(1, result.size());
+    }
+
+    @Test
+    void 顧客情報抽出テスト_範囲_日付() {
+
+        final var id = new ClientID("test_id");
+        final var name = new ClientName("test_name");
+        final var cps = new ClientCustomProperties(
+                Arrays.asList(
+                        new ClientCustomProperty("address", "大阪府"),
+                        new ClientCustomProperty("date", "2021-11-01")));
+        this.target.insert(new Client(id, name, cps));
+
+        final var id2 = new ClientID("test_id2");
+        final var name2 = new ClientName("test_name2");
+        final var cps2 = new ClientCustomProperties(
+                Arrays.asList(
+                        new ClientCustomProperty("address", "東京都"),
+                        new ClientCustomProperty("date", "2021-10-10")));
+
+        this.target.insert(new Client(id2, name2, cps2));
+
+        final var id3 = new ClientID("test_id3");
+        final var name3 = new ClientName("test_name3");
+        final var cps3 = new ClientCustomProperties(
+                Arrays.asList(
+                        new ClientCustomProperty("address", "東京都"),
+                        new ClientCustomProperty("date", "2021-11-10")));
+
+        this.target.insert(new Client(id3, name3, cps3));
+
+        List<FilterCondition> fcs = new ArrayList<>();
+        FilterCondition fc1 = new FilterCondition.DateBetweenCondition("date", LocalDate.of(2021,10,30), LocalDate.of(2021,11,2));
         fcs.add(fc1);
         var result = this.target.filter(fcs);
         assertEquals(1, result.size());

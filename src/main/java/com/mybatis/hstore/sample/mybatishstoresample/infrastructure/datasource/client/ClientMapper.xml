@@ -36,6 +36,9 @@
                 <if test="cond.isBetween()">
                     AND CAST(custom_properties -> #{cond.key} AS INTEGER) BETWEEN #{cond.from} AND #{cond.to}
                 </if>
+                <if test="cond.isDateBetween()">
+                    AND CAST(custom_properties -> #{cond.key} AS Date) BETWEEN #{cond.dateFrom} AND #{cond.dateTo}
+                </if>
             </foreach>
         </trim>
     </select>
